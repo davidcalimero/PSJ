@@ -15,6 +15,7 @@ class Mesh {
 		std::vector<glm::vec3> _vertices;
 		std::vector<glm::vec2> _uvs;
 		std::vector<glm::vec3> _normals;
+		std::vector<glm::vec4> _tangents;
 		glm::vec3 _ambientColor;
 		glm::vec3 _diffuseColor;
 		glm::vec3 _specularColor;

@@ -45,6 +45,7 @@
     <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi;*.log</ExtensionsToDeleteOnClean>
     <IncludePath>..\..\..\dependencies\glm;..\..\..\dependencies\freeglut\include;..\..\..\dependencies\glew\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\dependencies\freeglut\lib;..\..\..\dependencies\glew\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\bin\</OutDir>
@@ -52,6 +53,7 @@
     <ExtensionsToDeleteOnClean>*.cdf;*.cache;*.obj;*.ilk;*.resources;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;*.tlog;*.manifest;*.res;*.pch;*.exp;*.idb;*.rep;*.xdc;*.pdb;*_manifest.rc;*.bsc;*.sbr;*.xml;*.metagen;*.bi;*.log</ExtensionsToDeleteOnClean>
     <IncludePath>..\..\..\dependencies\glm;..\..\..\dependencies\freeglut\include;..\..\..\dependencies\glew\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\dependencies\freeglut\lib;..\..\..\dependencies\glew\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,6 +88,7 @@
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Light.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
+    <ClCompile Include="..\src\ply.c" />
     <ClCompile Include="..\src\ProgramShader.cpp" />
     <ClCompile Include="..\src\Project.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
@@ -99,6 +102,7 @@
     <ClInclude Include="..\src\Input.h" />
     <ClInclude Include="..\src\Light.h" />
     <ClInclude Include="..\src\Mesh.h" />
+    <ClInclude Include="..\src\ply.h" />
     <ClInclude Include="..\src\ProgramShader.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\Utils.h" />

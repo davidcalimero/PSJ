@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#define CAPTION "PSJ Exercise 1"
+#define CAPTION "PSJ Assignment 1"
 
 int WinX = 640, WinY = 480;
 int WindowHandle = 0;
