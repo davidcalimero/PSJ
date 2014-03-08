@@ -1,0 +1,2 @@
+Sphere Mapping
+	-> Usando uma imagem circular
