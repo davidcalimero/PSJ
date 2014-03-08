@@ -1,0 +1,13 @@
+Há 2 formas diferentes de fazer o Cube Mapping:
+	- Usando 1 imagem, com todas as faces;
+	- Usando 6 imagens, 1 por cada face disponível.
+
+Eu vou fazer ambas as versões, peça ordem dada.
+
+-----------------------------------------------------------
+
+Cube Mapping - 1 Imagem
+	-> Neste caso, o cubo é feito através de 1 só imagem, que contém todas as faces já lá. A imagem Cubemap.jpg é um exemplo de uma imagem dessas. A vantagem deste tipo de abordagem é que primeiro evita o carregamento de 6 imagens, o que evita que as 6 sejam carregadas para o shader. A desvantagem é que tem de ser feito um mapeamento dependendo de qual o valor da normal para coordenadas da textura. Também envolve que as faces estejam dispostas na imagem de igual forma, e como tal não é tão modularizável.
+
+Cube Mapping - 6 imagens
+	-> Versão normal. Envolve carregar 6 imagens, o que traz um carregamento "massivo" de imagens para o GPU. Vantagem é que ao contrário da versão de uma imagem, cada imagem vai desde 0 a 1, e o mapeamento é mais modularizável, se quisermos trocar uma imagem de repente.

@@ -36,7 +36,7 @@ Entity * GameManager::getEntityById(std::string id){
 void GameManager::init(){
 	
 	_program = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", 
-																 "shaders/fragment.glsl");
+																 "shaders/cubeMapping.glsl");
 
 	_light = new Light(glm::vec3(0.0,0.0,9.0), 
 					   glm::vec3(0.1,0.1,0.1), 
@@ -48,7 +48,7 @@ void GameManager::init(){
 
 	Object * cube = new Object("cube");
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	cube->setTexture("textures/fire.tga", "textures/stone.tga");
+	cube->setTexture("textures/Cubemap.tga", "textures/stone.tga");
 	add(cube);
 	
 	/**/
@@ -56,7 +56,7 @@ void GameManager::init(){
 	Object * teapot = new Object("teapot");
 	teapot->scale(0.05, 0.05, 0.05);
 	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
-	teapot->setTexture("textures/fire.tga", "textures/stone.tga");
+	teapot->setTexture("textures/Cubemap.tga", "textures/stone.tga");
 	add(teapot);
 
 	/**/

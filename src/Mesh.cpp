@@ -6,7 +6,7 @@
 Mesh::Mesh(char * objFile, char * mtlFile){
 
 	Utils::loadObj(objFile, _indices, _vertices, _uvs, _normals);
-	_tangents = Utils::calculateTangents(_vertices, _uvs, _normals);
+	//_tangents = Utils::calculateTangents(_vertices, _uvs, _normals);
 
 	glGenVertexArrays(1, &_vaoId);
 	glBindVertexArray(_vaoId);
@@ -30,11 +30,13 @@ Mesh::Mesh(char * objFile, char * mtlFile){
 	glEnableVertexAttribArray(NORMALS);
 	glVertexAttribPointer(NORMALS, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
+	/** /
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo[3]);
 	glBufferData(GL_ARRAY_BUFFER, _tangents.size() * sizeof(glm::vec4), &_tangents[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(TANGENTS);
 	glVertexAttribPointer(TANGENTS, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	
+	/**/
+
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

@@ -114,6 +114,12 @@
     <None Include="materials\silver.mtl">
       <Filter>Material Files</Filter>
     </None>
+    <None Include="shaders\cubeMapping.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\sphereMapping.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\fire.tga">

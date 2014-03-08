@@ -285,7 +285,7 @@ namespace Utils {
 		}
 	}
 
-
+	/** /
 	std::vector<glm::vec4> calculateTangents(std::vector<glm::vec3> &_vertices, std::vector<glm::vec2> &_uvs, std::vector<glm::vec3> &_normals){
 		std::vector<glm::vec4> tangents;
 
@@ -303,10 +303,10 @@ namespace Utils {
 			glm::vec2 & uv3 = _uvs[i + 2];
 
 			T = glm::vec4(((uv3.y - uv1.y) * (v2 - v1) - (uv2.y - uv1.y) * (v3 - v1)) / ((uv2.x - uv1.x) * (uv3.y - uv1.y) - (uv2.y - uv1.y) * (uv3.x - uv1.x)), 0);
-
+			
 		}
 	}
-
+	/**/
 
 	void loadMaterial(char* filename, glm::vec3 &ambient, glm::vec3 &diffuse, glm::vec3 &specular, float &shininess){
 		std::ifstream in(filename, std::ios::in);

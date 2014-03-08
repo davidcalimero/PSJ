@@ -113,7 +113,9 @@
     <None Include="materials\gold.mtl" />
     <None Include="materials\ruby.mtl" />
     <None Include="materials\silver.mtl" />
+    <None Include="shaders\cubeMapping.glsl" />
     <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\sphereMapping.glsl" />
     <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
