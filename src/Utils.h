@@ -12,6 +12,7 @@
 #include <vector>
 #include <sstream>
 #include <gtc/quaternion.hpp>
+#include <algorithm>
 
 #define VERTICES 0
 #define COLORS 1
@@ -56,8 +57,9 @@ namespace Utils {
 	bool isOpenGLError();
 	void checkOpenGLError(std::string error);	
 	char * readFile(char * file);
+	void loadMesh(char* filename, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals);
 	void loadObj(char* filename, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals);
-	void loadPLY(char *objFile, Vertex ***vertices, unsigned int *vertexcount, bool *normals, bool *uvs);
+	void loadPLY(char *objFile, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals);
 	std::vector<glm::vec4> calculateTangents(std::vector<glm::vec3> &_vertices, std::vector<glm::vec2> &_uvs, std::vector<glm::vec3> &_normals);
 	void loadMaterial(char* filename, glm::vec3 &ambient, glm::vec3 &diffuse, glm::vec3 &specular, float &shininess);
 	tImageTGA *loadTexture(char *filename);

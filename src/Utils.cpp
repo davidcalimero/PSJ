@@ -69,7 +69,22 @@ namespace Utils {
 		return buffer;
 	}
 
+	void loadMesh(char* filename, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals){
+		std::string fn = filename;
+		std::string ext = fn.substr(fn.find_last_of(".") + 1);
+		std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+		std::cout << ext << std::endl;
 
+		if (ext == "obj") {
+			loadObj(filename, indices, out_vertices, out_uvs, out_normals);
+			std::cout << "Load OBJ" << std::endl;
+		}
+		else if (ext == "ply") {
+			loadPLY(filename, indices, out_vertices, out_uvs, out_normals);
+			std::cout << "Load PLY" << std::endl;
+		}
+		
+	}
 	void loadObj(char* filename, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals){
 		std::vector<glm::vec3> vertices;
 		std::vector<glm::vec2> uvs;
@@ -141,14 +156,22 @@ namespace Utils {
 		}
 	}
 
-	void loadPLY(char *objFile, Vertex ***vertices, unsigned int *vertexcount, bool *normals, bool *uvs) {
-		PlyFile * input = read_ply(fopen(objFile, "rb"));
-		Face ** faces;
-		unsigned int facecount;
+	void loadPLY(char *objFile, std::vector<unsigned int> &indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals){
+	//void loadPLY(char *objFile, Vertex ***vertices, unsigned int *vertexcount, bool *normals, bool *uvs) {
+		PlyFile *input = read_ply(fopen(objFile, "r"));
+		Vertex ***vertices;
+		Face *** faces;
+		unsigned int facecount = 0;
+		unsigned int vertexcount = 0;
+
+		std::vector<glm::vec3> verts;
+		std::vector<glm::vec3> norms;
+		std::vector<glm::vec2> uvs;
+
 		int i, j;
 
 		// go through the element types
-		for (i = 0; i < input->num_elem_types; i++) {
+		for (i = 0; i < input->num_elem_types; i = i + 1) {
 			int count;
 
 			// setup the element for reading and get the element count
@@ -156,77 +179,143 @@ namespace Utils {
 
 			// get vertices
 			if (strcmp("vertex", element) == 0) {
-				*vertices = (Vertex**)malloc(sizeof(Vertex)* count);
-				*vertexcount = count;
+				//*vertices = (Vertex**)malloc(sizeof(Vertex)* count);
+				vertexcount = count;
 
 				// run through the properties and store them
 				for (j = 0; j < input->elems[i]->nprops; j = j + 1) {
 					PlyProperty* property = input->elems[i]->props[j];
 					PlyProperty setup;
-					setup.name = property->name;
-					setup.internal_type = Float32;
-					setup.count_internal = 0;
-					setup.count_offset = 0;
 
-					if (strcmp("x", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					if (strcmp("x", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "x";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, XYZ[0]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
 					}
-					else if (strcmp("y", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("y", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "y";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, XYZ[1]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
 					}
-					else if (strcmp("z", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("z", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "z";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, XYZ[2]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
 					}
-					else if (strcmp("nx", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("nx", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "nx";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, N[0]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
-						*normals = 1;
+						//*vertexnormals = 1;
 					}
-					else if (strcmp("ny", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("ny", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "ny";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, N[1]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
-						*normals = 1;
+						//*vertexnormals = 1;
 					}
-					else if (strcmp("nz", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("nz", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "nz";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, N[2]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
-						*normals = 1;
+						//*vertexnormals = 1;
 					}
-					else if (strcmp("s", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("s", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "s";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, UV[0]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
-						*uvs = 1;
+						
 					}
-					else if (strcmp("t", property->name) == 0 && property->is_list == PLY_SCALAR) {
+					else if (strcmp("t", property->name) == 0 &&
+						property->is_list == PLY_SCALAR) {
+
+						setup.name = "t";
+						setup.internal_type = Float32;
 						setup.offset = offsetof(Vertex, UV[1]);
+						setup.count_internal = 0;
+						setup.count_offset = 0;
+
 						setup_property_ply(input, &setup);
-						*uvs = 1;
+						
+					}
+					// dunno what it is
+					else {
+						std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
 					}
 				}
+
+				// do this if you want to grab the other data
+				// list_pointer = get_other_properties_ply
+				//                (input, offsetof(Vertex, struct_pointer));
 
 				// copy the data
 				for (j = 0; j < count; j = j + 1) {
-					(*vertices)[j] = (Vertex*)malloc(sizeof(Vertex));
-					get_element_ply(input, (void*)((*vertices)[j]));
+					//(*vertices)[j] = (Vertex*)malloc(sizeof(Vertex));
+
+					Vertex* v = (Vertex*)malloc(sizeof(Vertex));
+					get_element_ply(input, (void*)(v));
+
+					verts.push_back(glm::vec3(v->XYZ[0], v->XYZ[1], v->XYZ[2]));
+					norms.push_back(glm::vec3(v->N[0], v->N[1], v->N[2]));
+					uvs.push_back(glm::vec2(v->UV[0], v->UV[1]));
 				}
 			}
-/*			// get faces
+			// get faces
 			else if (strcmp("face", element) == 0) {
-				faces = (Face**)malloc(sizeof(Face)* count);
+				//*faces = (Face**)malloc(sizeof(Face)* count);
 				facecount = count;
 
 				// run through the properties and store them
 				for (j = 0; j < input->elems[i]->nprops; j = j + 1) {
 					PlyProperty* property = input->elems[i]->props[j];
 					PlyProperty setup;
-					setup.name = property->name;
 
 					if (strcmp("vertex_indices", property->name) == 0 &&
 						property->is_list == PLY_LIST) {
 
+						setup.name = "vertex_indices";
 						setup.internal_type = Uint32;
 						setup.offset = offsetof(Face, vertices);
 						setup.count_internal = Uint32;
@@ -237,37 +326,42 @@ namespace Utils {
 					else if (strcmp("nx", property->name) == 0 &&
 						property->is_list == PLY_SCALAR) {
 
+						setup.name = "nx";
 						setup.internal_type = Float32;
-						setup.offset = offsetof(Face, nx);
+						setup.offset = offsetof(Face, N[0]);
 						setup.count_internal = 0;
 						setup.count_offset = 0;
 
 						setup_property_ply(input, &setup);
+						//*facenormals = 1;
 					}
 					else if (strcmp("ny", property->name) == 0 &&
 						property->is_list == PLY_SCALAR) {
 
+						setup.name = "ny";
 						setup.internal_type = Float32;
-						setup.offset = offsetof(Face, ny);
+						setup.offset = offsetof(Face, N[1]);
 						setup.count_internal = 0;
 						setup.count_offset = 0;
 
 						setup_property_ply(input, &setup);
+						//*facenormals = 1;
 					}
 					else if (strcmp("nz", property->name) == 0 &&
 						property->is_list == PLY_SCALAR) {
 
+						setup.name = "nz";
 						setup.internal_type = Float32;
-						setup.offset = offsetof(Face, nz);
+						setup.offset = offsetof(Face, N[2]);
 						setup.count_internal = 0;
 						setup.count_offset = 0;
 
 						setup_property_ply(input, &setup);
+						//*facenormals = 1;
 					}
 					// dunno what it is
 					else {
-						fprintf(stderr, "unknown property type found in %s: %s\n",
-							element, property->name);
+						std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
 					}
 				}
 
@@ -277,36 +371,85 @@ namespace Utils {
 
 				// copy the data
 				for (j = 0; j < count; j = j + 1) {
-					(*faces)[j] = (Face*)malloc(sizeof(Face));
+					//(*faces)[j] = (Face*)malloc(sizeof(Face));
+					Face *f = (Face*)malloc(sizeof(Face));
+					get_element_ply(input, (void*)(f));
 
-					get_element_ply(input, (void*)((*faces)[j]));
+					unsigned int v1 = f->vertices[0];
+					unsigned int v2 = f->vertices[1];
+					unsigned int v3 = f->vertices[2];
+
+					//std::cout << f->vertices[0] << " " << f->vertices[1] << " " << f->vertices[2] << " " << std::endl;
+
+					out_vertices.push_back(verts[v1]);
+					out_uvs.push_back(uvs[v1]);
+					out_normals.push_back(norms[v1]);
+
+					out_vertices.push_back(verts[v2]);
+					out_uvs.push_back(uvs[v2]);
+					out_normals.push_back(norms[v2]);
+
+					out_vertices.push_back(verts[v3]);
+					out_uvs.push_back(uvs[v3]);
+					out_normals.push_back(norms[v3]);
 				}
-			}*/
+			}
+			// who knows?
+			else {
+				std::cerr << "unknown element type found: " << element << std::endl;
+			}
 		}
+
+		// if you want to grab the other data do this
+		// get_other_element_ply(input);
+
+
 	}
 
-	/** /
+
 	std::vector<glm::vec4> calculateTangents(std::vector<glm::vec3> &_vertices, std::vector<glm::vec2> &_uvs, std::vector<glm::vec3> &_normals){
 		std::vector<glm::vec4> tangents;
 
 		for (int i = 0; i < _vertices.size(); i +=3){
 			glm::vec4 T;
 
-			// Shortcuts for vertices
-			glm::vec3 & v1 = _vertices[i + 0];
-			glm::vec3 & v2 = _vertices[i + 1];
-			glm::vec3 & v3 = _vertices[i + 2];
+			glm::vec3& v0 = _vertices[i + 0];
+			glm::vec3& v1 = _vertices[i + 1];
+			glm::vec3& v2 = _vertices[i + 2];
 
-			// Shortcuts for UVs
-			glm::vec2 & uv1 = _uvs[i + 0];
-			glm::vec2 & uv2 = _uvs[i + 1];
-			glm::vec2 & uv3 = _uvs[i + 2];
+			glm::vec2 & uv0 = _uvs[i + 0];
+			glm::vec2 & uv1 = _uvs[i + 1];
+			glm::vec2 & uv2 = _uvs[i + 2];
 
-			T = glm::vec4(((uv3.y - uv1.y) * (v2 - v1) - (uv2.y - uv1.y) * (v3 - v1)) / ((uv2.x - uv1.x) * (uv3.y - uv1.y) - (uv2.y - uv1.y) * (uv3.x - uv1.x)), 0);
-			
+			glm::vec3 Edge1 = v1 - v0;
+			glm::vec3 Edge2 = v2 - v0;
+
+			float DeltaU1 = uv1.x - uv0.x;
+			float DeltaV1 = uv1.y - uv0.y;
+			float DeltaU2 = uv2.x - uv0.x;
+			float DeltaV2 = uv2.y - uv0.y;
+
+			float f = 1.0f / (DeltaU1 * DeltaV2 - DeltaU2 * DeltaV1);
+
+			glm::vec4 Tangent, Bitangent;
+
+			Tangent.x = f * (DeltaV2 * Edge1.x - DeltaV1 * Edge2.x);
+			Tangent.y = f * (DeltaV2 * Edge1.y - DeltaV1 * Edge2.y);
+			Tangent.z = f * (DeltaV2 * Edge1.z - DeltaV1 * Edge2.z);
+			Tangent.w = 0.0f;
+
+			tangents.push_back(Tangent);
+			tangents.push_back(Tangent);
+			tangents.push_back(Tangent);
 		}
+
+
+
+
+
+		return tangents;
 	}
-	/**/
+
 
 	void loadMaterial(char* filename, glm::vec3 &ambient, glm::vec3 &diffuse, glm::vec3 &specular, float &shininess){
 		std::ifstream in(filename, std::ios::in);

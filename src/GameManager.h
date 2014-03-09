@@ -12,7 +12,7 @@
 class GameManager {
 
 	private:
-		enum Objects {CUBE, TEAPOT};
+		enum Objects {CUBE, TEAPOT, BUNNY};
 		Objects _state;
 		Light * _light;
 		GLuint _program;

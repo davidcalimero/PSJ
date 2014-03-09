@@ -12,6 +12,7 @@ in vec3 ex_H;
 out vec4 out_Color;
 
 // Light Attributes
+uniform vec3 LightPosition;
 uniform vec3 AmbientLight;
 uniform vec3 DiffuseLight;
 uniform vec3 SpecularLight;
@@ -43,7 +44,8 @@ void main(void)
 {
 	// Blinn-Phong Model
 	// Vector Initialization
-	float LightDistance = length(ex_L);
+	vec3 lightDir = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
+	float LightDistance = length(lightDir);
 	vec3 N = 2.0 * texture(normalTexture, ex_TexCoord).rgb - 1.0;
 	N = normalize(N);
 

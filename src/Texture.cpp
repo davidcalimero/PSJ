@@ -52,9 +52,9 @@ Texture::~Texture(){
 
 void Texture::bind() {
 	glBindTexture(GL_TEXTURE_2D, _textureID[0]);
-	glUniform1i(ProgramShader::getInstance()->getId("tex1"), 0);
+	glUniform1i(ProgramShader::getInstance()->getId("baseTexture"), 0);
 	glBindTexture(GL_TEXTURE_2D, _textureID[1]);
-	glUniform1i(ProgramShader::getInstance()->getId("tex2"), 1);
+	glUniform1i(ProgramShader::getInstance()->getId("normalTexture"), 1);
 }
 
 void Texture::unbind() {

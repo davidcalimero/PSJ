@@ -1427,7 +1427,7 @@ void ascii_get_element(PlyFile *plyfile, char *elem_ptr)
   int store_it;
   char **store_array;
   char *orig_line;
-  char *other_data;
+  char *other_data = 0;
   int other_flag;
 
   /* the kind of element we're reading currently */
