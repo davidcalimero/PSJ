@@ -25,8 +25,8 @@ uniform float MaterialShininess;
 
 
 // Texture Sample
-uniform sampler2D tex1;
-uniform sampler2D tex2;
+uniform sampler2D baseTexture;
+uniform sampler2D normalTexture;
 
 // Matrix
 uniform mat4 ModelMatrix;
@@ -62,8 +62,8 @@ void main(void)
 			vertical = reflected_vector.y * 0.5 + 0.5;
 
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
-			horizontal = horizontal * 0.25;
-			vertical = (abs(1 - vertical) * 0.33) + 0.33;
+			horizontal = abs(1 - horizontal) * 0.25;
+			vertical = (vertical * 0.33) + 0.33;
 
 			// E com estes valores, temos as coordenadas para a textura.
 		}
@@ -95,7 +95,7 @@ void main(void)
 
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
 			horizontal = (horizontal * 0.25) + 0.25;
-			vertical = (abs(1 - vertical) * 0.33);
+			vertical = abs(1 - vertical) * 0.33;
 		}
 		else
 		{
@@ -141,7 +141,7 @@ void main(void)
 	}
 
 	// Aqui, com os valores calculados acima, vamos buscar a cor na posição calculada anteriormente
-	out_Color = texture(tex1, vec2(horizontal,vertical));
+	out_Color = texture(baseTexture, vec2(horizontal,vertical));
 
 	// Esta versão não tem a luz implementada!
 }

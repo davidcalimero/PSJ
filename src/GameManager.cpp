@@ -38,7 +38,7 @@ Entity * GameManager::getEntityById(std::string id){
 void GameManager::init(){
 	
 	_program = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", 
-																 "shaders/fragment.glsl");
+																 "shaders/sphereMapping.glsl");
 
 	_light = new Light(glm::vec3(-3.0,0.0,9.0), 
 					   glm::vec3(0.1,0.1,0.1), 
@@ -50,7 +50,7 @@ void GameManager::init(){
 
 	Object * cube = new Object("cube");
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	cube->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
 	add(cube);
 	
 	/**/
@@ -58,7 +58,7 @@ void GameManager::init(){
 	Object * teapot = new Object("teapot");
 	teapot->scale(0.05, 0.05, 0.05);
 	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
-	teapot->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	teapot->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
 	add(teapot);
 
 	/**/
@@ -66,7 +66,7 @@ void GameManager::init(){
 	Object * bunny = new Object("bunny");
 	bunny->scale(2.0, 2.0, 2.0);
 	bunny->setMesh("mesh/bun_zipper.ply", "materials/ruby.mtl");
-	bunny->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	//bunny->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(bunny);
 
 	/**/
