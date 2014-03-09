@@ -117,6 +117,8 @@ void Input::mouseClickMotion(int x, int y) {
 
 
 void Input::mousePassiveMotion(int x, int y){
+	_mouseMotion.x = x - _lastMousePositionX;
+	_mouseMotion.y = y - _lastMousePositionY;
 	_lastMousePositionX = x;
 	_lastMousePositionY = y;
 }

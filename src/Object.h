@@ -9,12 +9,12 @@
 
 class Object : public Entity {
 
-private:
-	enum rotations {RX, RY, RZ, NR};
-	rotations _state;
+	private:
+		enum rotations {RX, RY, RZ, NR};
+		rotations _state;
 
-public:
-	Object(std::string id);
-	void reset();
-	void update();
+	public:
+		Object(std::string id);
+		void reset();
+		void update();
 };

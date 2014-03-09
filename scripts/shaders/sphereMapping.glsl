@@ -44,8 +44,8 @@ void main(void)
 	vec3 N = normalize(ex_Normal);
 	vec3 R = reflect(U, N);
 
-	float m = 2.0 * sqrt((R.x * R.x) + (R.y * R.y) + ((R.z + 1.0) * (R.z + 1.0))); 
-	vec2 coords = vec2((R.x/m) + 0.5, (R.y/m) + 0.5);
+	float p = 2.0 * sqrt(2 * (R.z + 1.0)); 
+	vec2 coords = vec2((R.x/p) + 0.5, (R.y/p) + 0.5);
 
 	out_Color = texture(tex1, coords);
 	// Esta versão não tem a luz implementada!
