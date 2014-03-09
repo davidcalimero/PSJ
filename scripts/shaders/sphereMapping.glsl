@@ -40,7 +40,13 @@ layout(std140) uniform SharedMatrices
 void main(void)
 {
 	// Sphere Mapping
-	
+	vec3 U = normalize(ex_Position);
+	vec3 N = normalize(ex_Normal);
+	vec3 R = reflect(U, N);
 
+	float m = 2.0 * sqrt((R.x * R.x) + (R.y * R.y) + ((R.z + 1.0) * (R.z + 1.0))); 
+	vec2 coords = vec2((R.x/m) + 0.5, (R.y/m) + 0.5);
+
+	out_Color = texture(tex1, coords);
 	// Esta versão não tem a luz implementada!
 }
