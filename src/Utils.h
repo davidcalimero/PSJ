@@ -13,6 +13,8 @@
 #include <sstream>
 #include <gtc/quaternion.hpp>
 #include <algorithm>
+#include <map>
+#include <list>
 
 #define VERTICES 0
 #define COLORS 1

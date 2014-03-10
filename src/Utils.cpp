@@ -73,15 +73,15 @@ namespace Utils {
 		std::string fn = filename;
 		std::string ext = fn.substr(fn.find_last_of(".") + 1);
 		std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-		std::cout << ext << std::endl;
+		//std::cout << ext << std::endl;
 
 		if (ext == "obj") {
 			loadObj(filename, indices, out_vertices, out_uvs, out_normals);
-			std::cout << "Load OBJ" << std::endl;
+			//std::cout << "Load OBJ" << std::endl;
 		}
 		else if (ext == "ply") {
 			loadPLY(filename, indices, out_vertices, out_uvs, out_normals);
-			std::cout << "Load PLY" << std::endl;
+			//std::cout << "Load PLY" << std::endl;
 		}
 		
 	}
@@ -153,6 +153,9 @@ namespace Utils {
 			out_vertices.push_back(vertex);
 			out_uvs.push_back(uv);
 			out_normals.push_back(normal);
+
+
+
 		}
 	}
 
@@ -282,7 +285,7 @@ namespace Utils {
 					}
 					// dunno what it is
 					else {
-						std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
+						//std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
 					}
 				}
 
@@ -361,7 +364,7 @@ namespace Utils {
 					}
 					// dunno what it is
 					else {
-						std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
+						//std::cerr << "unknown property type found in " << element << ": " << property->name << std::endl;
 					}
 				}
 
@@ -396,7 +399,7 @@ namespace Utils {
 			}
 			// who knows?
 			else {
-				std::cerr << "unknown element type found: " << element << std::endl;
+				//std::cerr << "unknown element type found: " << element << std::endl;
 			}
 		}
 
@@ -409,10 +412,12 @@ namespace Utils {
 
 	std::vector<glm::vec4> calculateTangents(std::vector<glm::vec3> &_vertices, std::vector<glm::vec2> &_uvs, std::vector<glm::vec3> &_normals){
 		std::vector<glm::vec4> tangents;
+		std::vector<glm::vec3> bitan, tan;
 
-		for (int i = 0; i < _vertices.size(); i +=3){
+		for (int i = 0; i < _vertices.size(); i += 3){
 			glm::vec4 T;
 
+			/** /
 			glm::vec3& v0 = _vertices[i + 0];
 			glm::vec3& v1 = _vertices[i + 1];
 			glm::vec3& v2 = _vertices[i + 2];
@@ -436,17 +441,120 @@ namespace Utils {
 			Tangent.x = f * (DeltaV2 * Edge1.x - DeltaV1 * Edge2.x);
 			Tangent.y = f * (DeltaV2 * Edge1.y - DeltaV1 * Edge2.y);
 			Tangent.z = f * (DeltaV2 * Edge1.z - DeltaV1 * Edge2.z);
-			Tangent.w = 0.0f;
+			Tangent.w = 1.0f;
 
 			tangents.push_back(Tangent);
 			tangents.push_back(Tangent);
 			tangents.push_back(Tangent);
+
+			/**/
+
+			glm::vec3& v1 = _vertices[i + 0];
+			glm::vec3& v2 = _vertices[i + 1];
+			glm::vec3& v3 = _vertices[i + 2];
+
+			glm::vec2 & uv1 = _uvs[i + 0];
+			glm::vec2 & uv2 = _uvs[i + 1];
+			glm::vec2 & uv3 = _uvs[i + 2];
+
+			float x1 = v2.x - v1.x;
+			float x2 = v3.x - v1.x;
+			float y1 = v2.y - v1.y;
+			float y2 = v3.y - v1.y;
+			float z1 = v2.z - v1.z;
+			float z2 = v3.z - v1.z;
+
+			float s1 = uv2.x - uv1.x;
+			float s2 = uv3.x - uv1.x;
+			float t1 = uv2.y - uv1.y;
+			float t2 = uv3.y - uv1.y;
+
+			float r = 1.0f / (s1 * t2 - s2 * t1);
+			glm::vec3 sdir = glm::vec3((t2 * x1 - t1 * x2) * r, (t2 * y1 - t1 * y2) * r, (t2 * z1 - t1 * z2) * r);
+			glm::vec3 tdir = glm::vec3((s1 * x2 - s2 * x1) * r, (s1 * y2 - s2 * y1) * r, (s1 * z2 - s2 * z1) * r);
+
+			tan.push_back(sdir);
+			tan.push_back(sdir);
+			tan.push_back(sdir);
+
+			bitan.push_back(tdir);
+			bitan.push_back(tdir);
+			bitan.push_back(tdir);
 		}
 
+		std::map<int, std::list<int>> indices;
+
+		for (int i = 0; i < _vertices.size(); i++){
+			glm::vec3 vertice = _vertices[i];
+			glm::vec2 uv = _uvs[i];
+
+			bool inserted = false;
+			for (std::map<int, std::list<int>>::iterator it = indices.begin(); it != indices.end(); it++){
+				glm::vec3 vertice_aux = _vertices[it->first];
+				glm::vec2 uv_aux = _uvs[it->first];
+				if (vertice.x == vertice_aux.x && vertice.y == vertice_aux.y && vertice.z == vertice_aux.z && uv.x == uv_aux.x && uv.y == uv_aux.y){
+					std::list<int> lista = it->second;
+					lista.insert(lista.begin(), i);
+					it->second = lista;
+					inserted = true;
+				}
+			}
+
+			if (!inserted){
+				std::list<int> lista;
+				lista.insert(lista.begin(), i);
+				indices[i] = lista;
+			}
 
 
+		}
 
+		/** /
+		for (std::map<int, std::list<int>>::iterator it = indices.begin(); it != indices.end(); it++){
+			std::cout << it->first << " { ";
+			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
+				std::cout << *iter << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
 
+		/**/
+
+		for (std::map<int, std::list<int>>::iterator it = indices.begin(); it != indices.end(); it++){
+			glm::vec3 somat = glm::vec3(0.0);
+			glm::vec3 somab = glm::vec3(0.0);
+			float divideBy = it->second.size();
+			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
+				somat += tan[*iter];
+				somab += bitan[*iter];
+			}
+
+			glm::vec3 result_tan = somat ;
+			glm::vec3 result_bitan = somab ;
+
+			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
+				tan[*iter] = result_tan;
+				bitan[*iter] = result_bitan;
+			}
+			
+		}
+		/**/
+		for (int i = 0; i < _vertices.size(); i++)
+		{
+			glm::vec4 tangent;
+
+			glm::vec3 n = _normals[i];
+			glm::vec3 t = tan[i];
+
+			// Gram-Schmidt orthogonalize
+			tangent = glm::vec4(t - n * glm::dot(n, t), 0.0);
+			
+			// Calculate handedness
+			tangent.w = (glm::dot(glm::cross(n, t), bitan[i]) < 0.0f) ? -1.0f : 1.0f;
+
+			tangents.push_back(tangent);
+		}
+		/**/
 		return tangents;
 	}
 

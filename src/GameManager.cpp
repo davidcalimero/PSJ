@@ -13,8 +13,8 @@ std::string GameManager::enumToId(Objects e){
 			return "cube";
 		case TEAPOT:
 			return "teapot";
-		case BUNNY:
-			return "bunny";
+		case TORUS:
+			return "torus";
 	}
 }
 
@@ -67,12 +67,12 @@ void GameManager::init(){
 
 	/**/
 
-	Object * bunny = new Object("bunny");
-	bunny->scale(2.0, 2.0, 2.0);
-	bunny->setProgram(program1);
-	bunny->setMesh("mesh/bun_zipper.ply", "materials/ruby.mtl");
-	bunny->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
-	add(bunny);
+	Object * torus = new Object("torus");
+	torus->scale(1.0, 1.0, 1.0);
+	torus->setProgram(program1);
+	torus->setMesh("mesh/torus2.obj", "materials/ruby.mtl");
+	torus->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
+	add(torus);
 
 	/**/
 }
