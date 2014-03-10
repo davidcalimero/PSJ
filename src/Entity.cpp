@@ -8,12 +8,11 @@ Entity::Entity(std::string id){
 	_height = _px = _py = _pz = 0.0;
 	_mesh = NULL;
 	_texture = NULL;
+	_program = 0;
 }
 
 
 void Entity::draw(){
-
-	glUniform1i(ProgramShader::getInstance()->getId("reflection"), 0);
 
 	glm::mat4 modelMatrix = glm::translate(glm::mat4(), glm::vec3(_px, _py, _pz)) * glm::mat4_cast(_q) * _matrix;
 	glm::mat3 normalMatrix = glm::inverseTranspose(glm::mat3(Camera::getInstance()->getView()*modelMatrix));
@@ -57,13 +56,23 @@ void Entity::setMesh(char * filename, char * mtl){
 	_mesh = new Mesh(filename, mtl);
 }
 
+void Entity::setProgram(GLuint id){
+	_program = id;
+}
+
+GLuint Entity::getProgram(){
+	return _program;
+}
+
 Mesh * Entity::getMesh(){
 	return _mesh;
 }
 
 
 void Entity::setTexture(char * filename1, char * filename2) {
+	ProgramShader::getInstance()->bind(_program);
 	_texture = new Texture(filename1, filename2);
+	ProgramShader::getInstance()->unBind();
 }
 
 

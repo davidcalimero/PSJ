@@ -18,6 +18,7 @@ class Entity {
 		float _height;
 		Mesh * _mesh;
 		Texture * _texture;
+		GLuint _program;
 
 	protected:
 		float _px, _py, _pz;
@@ -33,6 +34,8 @@ class Entity {
 		std::string getId();
 		void setMesh(char * filename, char * mtl);
 		Mesh * getMesh();
+		void setProgram(GLuint id);
+		GLuint getProgram();
 		void setTexture(char * filename1, char * filename2);
 		void setRotation(glm::quat q);
 		void setTranslation(float x, float y, float z);

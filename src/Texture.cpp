@@ -44,6 +44,8 @@ Texture::Texture(char * textureName1, char * textureName2) {
 			free(image->data);
 		free(image);
 	}
+
+	unbind();
 }
 
 Texture::~Texture(){
@@ -51,8 +53,10 @@ Texture::~Texture(){
 }
 
 void Texture::bind() {
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _textureID[0]);
 	glUniform1i(ProgramShader::getInstance()->getId("baseTexture"), 0);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, _textureID[1]);
 	glUniform1i(ProgramShader::getInstance()->getId("normalTexture"), 1);
 }

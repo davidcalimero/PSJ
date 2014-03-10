@@ -37,8 +37,10 @@ Entity * GameManager::getEntityById(std::string id){
 
 void GameManager::init(){
 	
-	_program = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", 
-																 "shaders/sphereMapping.glsl");
+	GLuint program1 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
+	GLuint program2 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping.glsl");
+	GLuint program3 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
+
 
 	_light = new Light(glm::vec3(-3.0,0.0,9.0), 
 					   glm::vec3(0.1,0.1,0.1), 
@@ -49,14 +51,16 @@ void GameManager::init(){
 	/**/
 
 	Object * cube = new Object("cube");
+	cube->setProgram(program3);
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	cube->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
+	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(cube);
 	
 	/**/
 
 	Object * teapot = new Object("teapot");
 	teapot->scale(0.05, 0.05, 0.05);
+	teapot->setProgram(program2);
 	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
 	teapot->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
 	add(teapot);
@@ -65,8 +69,9 @@ void GameManager::init(){
 
 	Object * bunny = new Object("bunny");
 	bunny->scale(2.0, 2.0, 2.0);
+	bunny->setProgram(program1);
 	bunny->setMesh("mesh/bun_zipper.ply", "materials/ruby.mtl");
-	//bunny->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	bunny->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
 	add(bunny);
 
 	/**/
@@ -74,15 +79,12 @@ void GameManager::init(){
 
 
 void GameManager::draw(){
-	ProgramShader::getInstance()->bind(_program);
-	Camera::getInstance()->put();
+	GLuint program = getEntityById(enumToId(_state))->getProgram();
 	
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+	ProgramShader::getInstance()->bind(program);
+	Camera::getInstance()->put();
 	_light->setShaderLightValues();
-
 	getEntityById(enumToId(_state))->draw();
-
 	ProgramShader::getInstance()->unBind();
 }
 

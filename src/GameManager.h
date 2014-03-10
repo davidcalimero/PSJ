@@ -15,7 +15,6 @@ class GameManager {
 		enum Objects {CUBE, TEAPOT, BUNNY};
 		Objects _state;
 		Light * _light;
-		GLuint _program;
 		typedef std::map<const std::string, Entity *>::iterator entityIterator;
 		std::map<const std::string, Entity *> _entities;
 		GameManager();

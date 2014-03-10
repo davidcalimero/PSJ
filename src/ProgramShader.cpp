@@ -34,7 +34,6 @@ int ProgramShader::createShaderProgram(char * vSFile, char * fSFile){
 	glAttachShader(id, vertexShaderId);
 	glAttachShader(id, fragmentShaderId);
 	glBindAttribLocation(id, VERTICES, "in_Position");
-	glBindAttribLocation(id, COLORS, "in_Color");
 	glBindAttribLocation(id, NORMALS, "in_Normal");
 	glBindAttribLocation(id, UVS, "in_TexCoord");
 	glLinkProgram(id);
@@ -87,6 +86,6 @@ void ProgramShader::bind(GLuint id){
 
 
 void ProgramShader::unBind(){
-	_activeProgram = glm::vec3();
+	_activeProgram = glm::vec3(0);
 	glUseProgram(0);
 }
