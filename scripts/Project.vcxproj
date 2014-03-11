@@ -115,14 +115,25 @@
     <None Include="materials\gold.mtl" />
     <None Include="materials\ruby.mtl" />
     <None Include="materials\silver.mtl" />
-    <None Include="shaders\cubeMapping.glsl" />
+    <None Include="materials\skybox.mtl" />
+    <None Include="shaders\cubeMapping-v1.glsl" />
+    <None Include="shaders\cubeMapping-v6.glsl" />
     <None Include="shaders\fragment.glsl" />
     <None Include="shaders\sphereMapping.glsl" />
     <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="textures\Cubemap.tga" />
     <Image Include="textures\fire.tga" />
+    <Image Include="textures\SkyBox\cubeMap-back.tga" />
+    <Image Include="textures\SkyBox\cubeMap-bottom.tga" />
+    <Image Include="textures\SkyBox\cubeMap-front.tga" />
+    <Image Include="textures\SkyBox\cubeMap-left.tga" />
+    <Image Include="textures\SkyBox\cubeMap-right.tga" />
+    <Image Include="textures\SkyBox\cubeMap-top.tga" />
+    <Image Include="textures\sphereMap.tga" />
     <Image Include="textures\stone.tga" />
+    <Image Include="textures\stone_normal.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

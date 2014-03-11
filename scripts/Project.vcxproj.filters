@@ -12,11 +12,17 @@
     <Filter Include="Shader Files">
       <UniqueIdentifier>{4d92eac6-63ce-4754-8672-bac9bdadd91e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Material Files">
+    <Filter Include="Resources Files">
+      <UniqueIdentifier>{ee25d2dc-0dc8-4077-aecb-53622b17ea55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources Files\Material Files">
       <UniqueIdentifier>{5a9ff3be-d8ca-4aa3-9eac-fb27a5854731}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Textures">
+    <Filter Include="Resources Files\Textures">
       <UniqueIdentifier>{9a7d1c2d-c03e-4bc5-883e-ad8044f19b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources Files\Textures\SkyBox">
+      <UniqueIdentifier>{e7d3a95a-d10a-41c4-ab9f-954d3d211990}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,40 +105,73 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragment.glsl">
-      <Filter>Shader Files</Filter>
-    </None>
-    <None Include="shaders\vertex.glsl">
-      <Filter>Shader Files</Filter>
-    </None>
     <None Include="materials\cyan.mtl">
-      <Filter>Material Files</Filter>
+      <Filter>Resources Files\Material Files</Filter>
     </None>
     <None Include="materials\esmerald.mtl">
-      <Filter>Material Files</Filter>
+      <Filter>Resources Files\Material Files</Filter>
     </None>
     <None Include="materials\gold.mtl">
-      <Filter>Material Files</Filter>
+      <Filter>Resources Files\Material Files</Filter>
     </None>
     <None Include="materials\ruby.mtl">
-      <Filter>Material Files</Filter>
+      <Filter>Resources Files\Material Files</Filter>
     </None>
     <None Include="materials\silver.mtl">
-      <Filter>Material Files</Filter>
+      <Filter>Resources Files\Material Files</Filter>
     </None>
-    <None Include="shaders\cubeMapping.glsl">
+    <None Include="materials\skybox.mtl">
+      <Filter>Resources Files\Material Files</Filter>
+    </None>
+    <None Include="shaders\cubeMapping-v1.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\cubeMapping-v6.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\fragment.glsl">
       <Filter>Shader Files</Filter>
     </None>
     <None Include="shaders\sphereMapping.glsl">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="shaders\vertex.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="textures\Cubemap.tga">
+      <Filter>Resources Files\Textures</Filter>
+    </Image>
     <Image Include="textures\fire.tga">
-      <Filter>Textures</Filter>
+      <Filter>Resources Files\Textures</Filter>
+    </Image>
+    <Image Include="textures\sphereMap.tga">
+      <Filter>Resources Files\Textures</Filter>
     </Image>
     <Image Include="textures\stone.tga">
-      <Filter>Textures</Filter>
+      <Filter>Resources Files\Textures</Filter>
+    </Image>
+    <Image Include="textures\stone_normal.tga">
+      <Filter>Resources Files\Textures</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-back.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-bottom.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-front.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-left.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-right.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\SkyBox\cubeMap-top.tga">
+      <Filter>Resources Files\Textures\SkyBox</Filter>
     </Image>
   </ItemGroup>
 </Project>

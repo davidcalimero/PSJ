@@ -3,18 +3,22 @@
 
 
 GameManager::GameManager(){
-	_state = CUBE;
+	_state = QUAD;
 }
 
 
 std::string GameManager::enumToId(Objects e){
 	switch (e){
+		case QUAD:
+			return "quad";
 		case CUBE:
 			return "cube";
-		case TEAPOT:
-			return "teapot";
+		case SPHERE:
+			return "sphere";
 		case TORUS:
 			return "torus";
+		case TEAPOT:
+			return "teapot";
 	}
 }
 
@@ -37,9 +41,9 @@ Entity * GameManager::getEntityById(std::string id){
 
 void GameManager::init(){
 	
-	GLuint program1 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
-	GLuint program2 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v1.glsl");
-	GLuint program3 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
+	GLuint program1 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
+	GLuint program2 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
+	GLuint program3 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v1.glsl");
 
 
 	_light = new Light(glm::vec3(-3.0,0.0,9.0), 
@@ -50,29 +54,44 @@ void GameManager::init(){
 
 	/**/
 
+	Object * quad = new Object("quad");
+	quad->setProgram(program1);
+	quad->rotate(1, 0, 0, 90);
+	quad->setMesh("mesh/quad.obj", "materials/ruby.mtl");
+	quad->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	add(quad);
+
+	/**/
+
 	Object * cube = new Object("cube");
-	cube->setProgram(program3);
+	cube->setProgram(program1);
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
 	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(cube);
 	
 	/**/
 
-	Object * teapot = new Object("teapot");
-	teapot->scale(0.05, 0.05, 0.05);
-	teapot->setProgram(program2);
-	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
-	teapot->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
-	add(teapot);
+	Object * sphere = new Object("sphere");
+	sphere->setProgram(program1);
+	sphere->setMesh("mesh/sphere.obj", "materials/ruby.mtl");
+	sphere->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	add(sphere);
 
 	/**/
 
 	Object * torus = new Object("torus");
-	torus->scale(1.0, 1.0, 1.0);
 	torus->setProgram(program1);
-	torus->setMesh("mesh/torus2.obj", "materials/ruby.mtl");
-	torus->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
+	torus->setMesh("mesh/torus.obj", "materials/ruby.mtl");
+	torus->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(torus);
+
+	/**/
+
+	Object * teapot = new Object("teapot");
+	teapot->setProgram(program1);
+	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
+	teapot->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	add(teapot);
 
 	/**/
 }
@@ -93,8 +112,15 @@ void GameManager::update(){
 	
 	//Object Change
 	if (Input::getInstance()->keyWasReleased('T')){
-		_state = (Objects)((_state + 1) % 3);
+		_state = (Objects)((_state + 1) % 5);
 		((Object*)getEntityById(enumToId(_state)))->reset();
+	}
+
+	//Object Program
+	if (Input::getInstance()->keyWasReleased('Y')){
+		for (entityIterator i = _entities.begin(); i != _entities.end(); i++){
+			//i->second->;
+		}
 	}
 
 	_light->update();

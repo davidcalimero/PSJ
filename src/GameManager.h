@@ -12,7 +12,7 @@
 class GameManager {
 
 	private:
-		enum Objects {CUBE, TEAPOT, TORUS};
+		enum Objects { QUAD, CUBE, SPHERE, TORUS, TEAPOT };
 		Objects _state;
 		Light * _light;
 		typedef std::map<const std::string, Entity *>::iterator entityIterator;

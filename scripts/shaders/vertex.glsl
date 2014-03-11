@@ -31,7 +31,7 @@ void main(void)
 {
 	ex_Color = in_Color;
 	ex_Normal = normalize(NormalMatrix * in_Normal);
-	ex_Position = vec3(ViewMatrix * ModelMatrix * vec4(in_Position, 1.0));
+	ex_Position = normalize(vec3(ViewMatrix * ModelMatrix * vec4(in_Position, 1.0)));
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(in_Position, 1.0);
 	ex_TexCoord = in_TexCoord;
 
@@ -49,7 +49,7 @@ void main(void)
 	v.z = dot(lightDir, N);
 	ex_L = normalize(v);
 
-	vec3 halfVector = normalize(lightDir + normalize(-ex_Position));
+	vec3 halfVector = normalize(lightDir - ex_Position);
 	v.x = dot(halfVector, T);
 	v.y = dot(halfVector, B);
 	v.z = dot(halfVector, N);

@@ -529,8 +529,8 @@ namespace Utils {
 				somab += bitan[*iter];
 			}
 
-			glm::vec3 result_tan = somat ;
-			glm::vec3 result_bitan = somab ;
+			glm::vec3 result_tan = somat / divideBy;
+			glm::vec3 result_bitan = somab / divideBy;
 
 			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
 				tan[*iter] = result_tan;
@@ -550,8 +550,8 @@ namespace Utils {
 			tangent = glm::vec4(t - n * glm::dot(n, t), 0.0);
 			
 			// Calculate handedness
-			tangent.w = (glm::dot(glm::cross(n, t), bitan[i]) < 0.0f) ? -1.0f : 1.0f;
-
+			tangent.w = (glm::dot(glm::cross(n, glm::vec3(tangent)), bitan[i]) < 0.0f) ? -1.0f : 1.0f;
+			tangent = glm::normalize(tangent);
 			tangents.push_back(tangent);
 		}
 		/**/
