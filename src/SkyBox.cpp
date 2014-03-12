@@ -1,10 +1,8 @@
 #include "SkyBox.h"
 
+SkyBox::SkyBox(){
 
-
-SkyBox::SkyBox(std::string id) : Entity(id){
-
-	tImageTGA* image;
+	tImageTGA* image[6];
 	int textureType;
 
 	/* Don't do this at home! */
@@ -21,44 +19,49 @@ SkyBox::SkyBox(std::string id) : Entity(id){
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	for (int i = 0; i < 6; i++) {
-		if (i == 0)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-right.tga");
-		else if (i == 1)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-left.tga");
-		else if (i == 2)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-top.tga");
-		else if (i == 3)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-bottom.tga");
-		else if (i == 4)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-back.tga");
-		else if (i == 5)
-			image = Utils::loadTexture("textures/SkyBox/cubeMap-front.tga");
-		else
-			std::cerr << "teste" << std::endl;
+	image[0] = Utils::loadTexture("textures/SkyBox/cubeMap-right.tga");
+	image[1] = Utils::loadTexture("textures/SkyBox/cubeMap-left.tga");
+	image[2] = Utils::loadTexture("textures/SkyBox/cubeMap-top.tga");
+	image[3] = Utils::loadTexture("textures/SkyBox/cubeMap-bottom.tga");
+	image[4] = Utils::loadTexture("textures/SkyBox/cubeMap-back.tga");
+	image[5] = Utils::loadTexture("textures/SkyBox/cubeMap-front.tga");
 
+	//for (int i = 0; i < 6; i++) {
+	/** /
 		textureType = GL_RGB;
-		if (image->channels == 4)
+		if (image[i]->channels == 4)
 			textureType = GL_RGBA;
+			/**/
 
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, image->channels, image->size_x, image->size_y, 0, textureType, GL_UNSIGNED_BYTE, image->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image[0]->channels, image[0]->size_x, image[0]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[0]->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image[1]->channels, image[1]->size_x, image[1]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[1]->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image[2]->channels, image[2]->size_x, image[2]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[2]->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image[3]->channels, image[3]->size_x, image[3]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[3]->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image[4]->channels, image[4]->size_x, image[4]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[4]->data);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image[5]->channels, image[5]->size_x, image[5]->size_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image[5]->data);
 
-		if (image){
-			if (image->data)
-				free(image->data);
-			free(image);
+		/** /
+		if (image[i]){
+			if (image[i]->data)
+				free(image[i]->data);
+			free(image[i]);
 		}
-	}
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+		/**/
+		
+	//}
+
+	unbind();
 }
 
 
-void SkyBox::update(){}
-
-void SkyBox::draw(){
-	std::cout << "teste1" << std::endl;
+void SkyBox::bind(){
+	
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeID);
 	glUniform1i(ProgramShader::getInstance()->getId("cubeMap"), 3);
-	std::cout << "teste2" << std::endl;
+	
+}
+
+void SkyBox::unbind(){
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }

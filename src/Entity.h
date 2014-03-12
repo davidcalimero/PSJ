@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "SkyBox.h"
 
 #include <gtx/transform2.hpp>
 #include <glm.hpp>
@@ -18,6 +19,7 @@ class Entity {
 		float _height;
 		Mesh * _mesh;
 		Texture * _texture;
+		SkyBox * _skybox;
 		GLuint _program;
 
 	protected:
@@ -37,6 +39,7 @@ class Entity {
 		void setProgram(GLuint id);
 		GLuint getProgram();
 		void setTexture(char * filename1, char * filename2);
+		void setSkyBox();
 		void setRotation(glm::quat q);
 		void setTranslation(float x, float y, float z);
 		void rotate(float x, float y, float z, float angle);

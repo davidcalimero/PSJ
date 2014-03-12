@@ -21,12 +21,18 @@ void Entity::draw(){
 	
 	if(_texture != NULL)
 		_texture->bind();	
+
+	if (_skybox != NULL)
+		_skybox->bind();
 	
 	if(_mesh != NULL)
 		_mesh->draw();
 	
 	if(_texture != NULL)
 		_texture->unbind();
+
+	if (_skybox != NULL)
+		_skybox->unbind();
 
 	Utils::checkOpenGLError("ERROR: Could not draw scene.");
 }
@@ -72,6 +78,12 @@ Mesh * Entity::getMesh(){
 void Entity::setTexture(char * filename1, char * filename2) {
 	ProgramShader::getInstance()->bind(_program);
 	_texture = new Texture(filename1, filename2);
+	ProgramShader::getInstance()->unBind();
+}
+
+void Entity::setSkyBox() {
+	ProgramShader::getInstance()->bind(_program);
+	_skybox = new SkyBox();
 	ProgramShader::getInstance()->unBind();
 }
 

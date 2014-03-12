@@ -26,7 +26,7 @@ uniform float MaterialShininess;
 
 // Texture Sample
 uniform samplerCube cubeMap;
-//uniform sampler2D baseTexture;
+uniform sampler2D baseTexture;
 uniform sampler2D normalTexture;
 
 // Matrix
@@ -47,10 +47,10 @@ void main (void) {
 	vec3 reflected_vector = normalize(reflect(-E, N));
 
 	// Perform a simple 2D texture look up.
-	//vec3 base_color = texture(baseTexture, ex_TexCoord).rgb;
+	vec3 base_color = texture(baseTexture, ex_TexCoord).rgb;
 
 	// Perform a cube map look up.
-	vec3 cube_color = textureCube(cubeMap, reflected_vector).rgb;
+	vec3 cube_color = texture(cubeMap, reflected_vector).rgb;
 
 	// Write the final pixel.
 	out_Color = vec4(cube_color, 1.0);

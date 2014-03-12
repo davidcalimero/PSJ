@@ -1,18 +1,20 @@
 #pragma once
 
-#include "Entity.h"
+#include "Utils.h"
 
 #include <iostream>
+#include <glm.hpp>
 
+#include "GL/glew.h"
+#include "GL/freeglut.h"
 
-
-class SkyBox : public Entity {
-
+class SkyBox {
 	private:
 		GLuint _cubeID;
 
 	public:
-		SkyBox(std::string id);
-		void update();
-		void draw();
+		SkyBox();
+		~SkyBox();
+		void bind();
+		void unbind();
 };
