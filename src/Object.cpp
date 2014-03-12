@@ -45,19 +45,19 @@ void Object::update(){
 
 	//Muda material do objecto
 	if (Input::getInstance()->keyWasReleased('1'))
-		getMesh()->setMaterial("materials/ruby.mtl");
+		_mesh->setMaterial("materials/ruby.mtl");
 
 	if (Input::getInstance()->keyWasReleased('2'))
-		getMesh()->setMaterial("materials/gold.mtl");
+		_mesh->setMaterial("materials/gold.mtl");
 
 	if (Input::getInstance()->keyWasReleased('3'))
-		getMesh()->setMaterial("materials/silver.mtl");
+		_mesh->setMaterial("materials/silver.mtl");
 
 	if (Input::getInstance()->keyWasReleased('4'))
-		getMesh()->setMaterial("materials/esmerald.mtl");
+		_mesh->setMaterial("materials/esmerald.mtl");
 
 	if (Input::getInstance()->keyWasReleased('5'))
-		getMesh()->setMaterial("materials/cyan.mtl");
+		_mesh->setMaterial("materials/cyan.mtl");
 
 
 	//Roda objecto

@@ -9,12 +9,14 @@
 #include "GL/freeglut.h"
 
 class Texture {
-	private:
-		GLuint _textureID[2];
+	protected:
+		Texture(int slot);
+		GLuint _textureID;
+		int _slot;
 
 	public:
-		Texture(char * textureName1, char * textureName2);
+		Texture(char * textureName, int slot);
 		~Texture();
-		void bind();
-		void unbind();
+		virtual void bind();
+		virtual void unbind();
 };

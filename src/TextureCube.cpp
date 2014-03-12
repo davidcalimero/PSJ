@@ -1,6 +1,6 @@
 #include "TextureCube.h"
 
-TextureCube::TextureCube(){
+TextureCube::TextureCube(char * right, char * left, char * top, char * bottom, char * back, char * front) : Texture(GL_TEXTURE3) {
 
 	tImageTGA* image[6];
 
@@ -8,8 +8,8 @@ TextureCube::TextureCube(){
 
 	glActiveTexture(GL_TEXTURE3);
 	glEnable(GL_TEXTURE_CUBE_MAP);
-	glGenTextures(1, &_cubeID);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeID);
+	glGenTextures(1, &_textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, _textureID);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT);
@@ -18,12 +18,12 @@ TextureCube::TextureCube(){
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	image[0] = Utils::loadTexture("textures/SkyBox/cubeMap-right.tga");
-	image[1] = Utils::loadTexture("textures/SkyBox/cubeMap-left.tga");
-	image[2] = Utils::loadTexture("textures/SkyBox/cubeMap-top.tga");
-	image[3] = Utils::loadTexture("textures/SkyBox/cubeMap-bottom.tga");
-	image[4] = Utils::loadTexture("textures/SkyBox/cubeMap-back.tga");
-	image[5] = Utils::loadTexture("textures/SkyBox/cubeMap-front.tga");
+	image[0] = Utils::loadTexture(right);
+	image[1] = Utils::loadTexture(left);
+	image[2] = Utils::loadTexture(top);
+	image[3] = Utils::loadTexture(bottom);
+	image[4] = Utils::loadTexture(back);
+	image[5] = Utils::loadTexture(front);
 
 	GLuint textureType[6];
 
@@ -40,7 +40,6 @@ TextureCube::TextureCube(){
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image[4]->channels, image[4]->size_x, image[4]->size_y, 0, textureType[4], GL_UNSIGNED_BYTE, image[4]->data);
 	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image[5]->channels, image[5]->size_x, image[5]->size_y, 0, textureType[5], GL_UNSIGNED_BYTE, image[5]->data);
 	
-	/**/
 	for (int i = 0; i < 6; i++) {
 		if (image[i]){
 			if (image[i]->data)
@@ -48,7 +47,6 @@ TextureCube::TextureCube(){
 			free(image[i]);
 		}
 	}
-	/**/
 
 	unbind();
 }
@@ -56,7 +54,7 @@ TextureCube::TextureCube(){
 void TextureCube::bind(){
 	
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubeID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, _textureID);
 	glUniform1i(ProgramShader::getInstance()->getId("cubeMap"), 3);
 	
 }

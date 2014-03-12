@@ -4,6 +4,7 @@
 
 GameManager::GameManager(){
 	_state = QUAD;
+	_programa = 0;
 }
 
 
@@ -42,11 +43,11 @@ Entity * GameManager::getEntityById(std::string id){
 void GameManager::init(){
 	
 	// Programs
-	GLuint program1 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/skybox.glsl");
-	GLuint program2 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
-	GLuint program3 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
-	GLuint program4 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v1.glsl");
-	GLuint program5 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v6.glsl");
+	GLuint program = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/skybox.glsl");
+	_programas[0] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
+	_programas[1] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
+	_programas[2] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v1.glsl");
+	_programas[3] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v6.glsl");
 
 	// Light
 	_light = new Light(glm::vec3(-3.0,0.0,9.0), 
@@ -57,46 +58,51 @@ void GameManager::init(){
 
 	// SkyBox
 	_skybox = new SkyBox("skybox");
-	_skybox->setProgram(program1);
+	_skybox->setProgram(program);
 	_skybox->scale(15, 15, 15);
 	_skybox->setMesh("mesh/invCube.obj", "materials/skybox.mtl");
-	_skybox->setTexture("textures/Cubemap.tga", "textures/stone_normal.tga");
+	_skybox->setTexture("textures/Cubemap.tga");
 	
 
 	/**/    // Quad
 	Object * quad = new Object("quad");
-	quad->setProgram(program2);
+	quad->setProgram(_programas[0]);
 	quad->rotate(1, 0, 0, 90);
 	quad->setMesh("mesh/quad.obj", "materials/ruby.mtl");
-	quad->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	quad->setTexture("textures/stone.tga");
+	quad->setNormalTexture("textures/stone_normal.tga");
 	add(quad);
 
 	/**/    // Cube
 	Object * cube = new Object("cube");
-	cube->setProgram(program2);
+	cube->setProgram(_programas[0]);
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	cube->setTexture("textures/stone.tga");
+	cube->setNormalTexture("textures/stone_normal.tga");
 	add(cube);
 	
 	/**/    // Sphere
 	Object * sphere = new Object("sphere");
-	sphere->setProgram(program2);
+	sphere->setProgram(_programas[0]);
 	sphere->setMesh("mesh/sphere.obj", "materials/ruby.mtl");
-	sphere->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	sphere->setTexture("textures/stone.tga");
+	sphere->setNormalTexture("textures/stone_normal.tga");
 	add(sphere);
 
 	/**/    // Torus
 	Object * torus = new Object("torus");
-	torus->setProgram(program2);
+	torus->setProgram(_programas[0]);
 	torus->setMesh("mesh/torus.obj", "materials/ruby.mtl");
-	torus->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	torus->setTexture("textures/stone.tga");
+	torus->setNormalTexture("textures/stone_normal.tga");
 	add(torus);
 
 	/**/    // Teapot
 	Object * teapot = new Object("teapot");
-	teapot->setProgram(program2);
+	teapot->setProgram(_programas[0]);
 	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
-	teapot->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	teapot->setTexture("textures/stone.tga");
+	teapot->setNormalTexture("textures/stone_normal.tga");
 	add(teapot);
 
 	/**/
@@ -132,7 +138,23 @@ void GameManager::update(){
 	//Object Program
 	if (Input::getInstance()->keyWasReleased('Y')){
 		for (entityIterator i = _entities.begin(); i != _entities.end(); i++){
-			//i->second->;
+			_programa = (_programa + 1) % 4;
+			i->second->setProgram(_programas[_programa]);
+			
+			switch (_programa){
+				case 0:
+					i->second->setTexture("textures/stone.tga");
+					break;
+				case 1:
+					i->second->setTexture("textures/sphereMap.tga");
+					break;
+				case 2:
+					i->second->setTexture("textures/cubeMap.tga");
+					break;
+				case 3:
+					i->second->setTexture("textures/SkyBox/cubeMap-right.tga", "textures/SkyBox/cubeMap-left.tga", "textures/SkyBox/cubeMap-top.tga", "textures/SkyBox/cubeMap-bottom.tga", "textures/SkyBox/cubeMap-back.tga", "textures/SkyBox/cubeMap-front.tga");
+					break;
+			}
 		}
 	}
 
@@ -143,7 +165,6 @@ void GameManager::update(){
 	for (entityIterator i = _entities.begin(); i != _entities.end(); i++)
 		i->second->update();
 }
-
 
 
 void GameManager::postProcessing(){}

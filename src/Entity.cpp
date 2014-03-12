@@ -8,8 +8,8 @@ Entity::Entity(std::string id){
 	_height = _px = _py = _pz = 0.0;
 	_mesh = NULL;
 	_texture = NULL;
+	_normalTexture = NULL;
 	_program = 0;
-	_textureCube = NULL;
 }
 
 
@@ -23,19 +23,19 @@ void Entity::draw(){
 	if(_texture != NULL)
 		_texture->bind();	
 
-	if (_textureCube != NULL)
-		_textureCube->bind();
+	if (_normalTexture != NULL)
+		_normalTexture->bind();
 	
 	if(_mesh != NULL)
 		_mesh->draw();
+
+	if (_normalTexture != NULL)
+		_normalTexture->unbind();
 	
 	if(_texture != NULL)
 		_texture->unbind();
 
-	if (_textureCube != NULL)
-		_textureCube->unbind();
-
-	Utils::checkOpenGLError("ERROR: Could not draw scene.");
+	Utils::checkOpenGLError("ERROR: Could not draw " + _id + " .");
 }
 
 
@@ -71,23 +71,23 @@ GLuint Entity::getProgram(){
 	return _program;
 }
 
-Mesh * Entity::getMesh(){
-	return _mesh;
-}
-
-
-void Entity::setTexture(char * filename1, char * filename2) {
+void Entity::setTexture(char * filename){
 	ProgramShader::getInstance()->bind(_program);
-	_texture = new Texture(filename1, filename2);
+	_texture = new Texture(filename, GL_TEXTURE0);
 	ProgramShader::getInstance()->unBind();
 }
 
-void Entity::setTextureCube() {
+void Entity::setNormalTexture(char * filename){
 	ProgramShader::getInstance()->bind(_program);
-	_textureCube = new TextureCube();
+	_normalTexture = new Texture(filename, GL_TEXTURE1);
 	ProgramShader::getInstance()->unBind();
 }
 
+void Entity::setTexture(char * right, char * left, char * top, char * bottom, char * back, char * front){
+	ProgramShader::getInstance()->bind(_program);
+	_texture = new TextureCube(right, left, top, bottom, back, front);
+	ProgramShader::getInstance()->unBind();
+}
 
 void Entity::setRotation(glm::quat q) {
 	_q = q;
