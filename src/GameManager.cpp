@@ -67,7 +67,6 @@ void GameManager::init(){
 	/**/    // Quad
 	Object * quad = new Object("quad");
 	quad->setProgram(_programas[0]);
-	quad->rotate(1, 0, 0, 90);
 	quad->setMesh("mesh/quad.obj", "materials/ruby.mtl");
 	quad->setTexture("textures/stone.tga");
 	quad->setNormalTexture("textures/stone_normal.tga");
@@ -137,22 +136,26 @@ void GameManager::update(){
 
 	//Object Program
 	if (Input::getInstance()->keyWasReleased('Y')){
+		_programa = (_programa + 1) % 4;
 		for (entityIterator i = _entities.begin(); i != _entities.end(); i++){
-			_programa = (_programa + 1) % 4;
 			i->second->setProgram(_programas[_programa]);
-			
 			switch (_programa){
 				case 0:
 					i->second->setTexture("textures/stone.tga");
+					i->second->setNormalTexture("textures/stone_normal.tga");
+					std::cout << "Bump Mapping" << std::endl;
 					break;
 				case 1:
 					i->second->setTexture("textures/sphereMap.tga");
+					std::cout << "Sphere Mapping" << std::endl;
 					break;
 				case 2:
 					i->second->setTexture("textures/cubeMap.tga");
+					std::cout << "Cube Mapping v1" << std::endl;
 					break;
 				case 3:
 					i->second->setTexture("textures/SkyBox/cubeMap-right.tga", "textures/SkyBox/cubeMap-left.tga", "textures/SkyBox/cubeMap-top.tga", "textures/SkyBox/cubeMap-bottom.tga", "textures/SkyBox/cubeMap-back.tga", "textures/SkyBox/cubeMap-front.tga");
+					std::cout << "Cube Mapping v6" << std::endl;
 					break;
 			}
 		}
