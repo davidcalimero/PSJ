@@ -42,6 +42,7 @@ Mesh::Mesh(char * objFile, char * mtlFile){
 	glDisableVertexAttribArray(VERTICES);
 	glDisableVertexAttribArray(UVS);
 	glDisableVertexAttribArray(NORMALS);
+	glDisableVertexAttribArray(TANGENTS);
 
 	Utils::checkOpenGLError("ERROR: Could not create VAOs and VBOs.");
 }
@@ -76,6 +77,7 @@ Mesh::~Mesh(){
 	glDisableVertexAttribArray(VERTICES);
 	glDisableVertexAttribArray(UVS);
 	glDisableVertexAttribArray(NORMALS);
+	glDisableVertexAttribArray(TANGENTS);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

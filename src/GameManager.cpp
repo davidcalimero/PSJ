@@ -44,6 +44,7 @@ void GameManager::init(){
 	GLuint program1 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
 	GLuint program2 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
 	GLuint program3 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v1.glsl");
+	GLuint program4 = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v6.glsl");
 
 
 	_light = new Light(glm::vec3(-3.0,0.0,9.0), 
@@ -64,12 +65,13 @@ void GameManager::init(){
 	/**/
 
 	Object * cube = new Object("cube");
-	cube->setProgram(program1);
+	cube->setProgram(program4);
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	//cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	cube->setSkyBox();
 	add(cube);
 	
-	/**/
+	/** /
 
 	Object * sphere = new Object("sphere");
 	sphere->setProgram(program1);
@@ -77,7 +79,7 @@ void GameManager::init(){
 	sphere->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(sphere);
 
-	/**/
+	/** /
 
 	Object * torus = new Object("torus");
 	torus->setProgram(program1);
@@ -85,7 +87,7 @@ void GameManager::init(){
 	torus->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(torus);
 
-	/**/
+	/** /
 
 	Object * teapot = new Object("teapot");
 	teapot->setProgram(program1);

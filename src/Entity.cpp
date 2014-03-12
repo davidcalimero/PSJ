@@ -9,6 +9,7 @@ Entity::Entity(std::string id){
 	_mesh = NULL;
 	_texture = NULL;
 	_program = 0;
+	_skybox = NULL;
 }
 
 
