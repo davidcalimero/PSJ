@@ -43,17 +43,16 @@ void main(void)
 	vec3 E = normalize(ex_Position);
 	vec3 N = normalize(ex_Normal);
 	//vec3 reflected_vector = N;
-	vec3 reflected_vector = normalize(reflect(-E, N));
+	vec3 reflected_vector = normalize(vec3(ViewMatrix * vec4(reflect(-E, N), 0.0)));
 
 	float horizontal = 0.0f;
 	float vertical = 0.0f;
 
-	//float maxValue = max(max(abs(reflected_vector.x), abs(reflected_vector.y)), abs(reflected_vector.z)));
-	float maxValue = 0.0f;
+	float maxValue = max(max(abs(reflected_vector.x), abs(reflected_vector.y)), abs(reflected_vector.z));
 	if(maxValue == abs(reflected_vector.x))
 	{
 		// Significa que o vector reflectido vai apontar para as faces laterais
-		if(reflected_vector.x < 0)
+		if(reflected_vector.x > 0)
 		{
 			// Significa que o vector reflectido vai apontar para a face da esquerda.
 			// A face da esquerda tem valores entre os 0.0 e 0.25 na horizontal, e 0.33 e 0.66 na vertical.
@@ -64,8 +63,6 @@ void main(void)
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
 			horizontal = abs(1 - horizontal) * 0.25;
 			vertical = (vertical * 0.33) + 0.33;
-
-			// E com estes valores, temos as coordenadas para a textura.
 		}
 		else
 		{
@@ -75,43 +72,41 @@ void main(void)
 			horizontal = reflected_vector.z * 0.5 + 0.5;
 			vertical = reflected_vector.y * 0.5 + 0.5;
 
-			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
+			// Dois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
 			horizontal = (horizontal * 0.25) + 0.5;
 			vertical = (vertical * 0.33) + 0.33;
-
-			// E com estes valores, temos as coordenadas para a textura.
 		}
 	}
 	else if(maxValue == abs(reflected_vector.y))
 	{
 		// Significa que o vector reflectido vai apontar para as faces verticais
-		if(reflected_vector.y < 0)
+		if(reflected_vector.y > 0)
 		{
 			// Significa que o vector reflectido vai apontar para a face de baixo.
-			// A face da baixo tem valores entre os 0.25 e 0.50 na horizontal, e 0 e 0.33 na vertical.
+			// A face da baixo tem valores entre os 0.25 e 0.50 na horizontal, e 0.66 e 1 na vertical.
 			// Antes de mais, devemos fazer com que os valores sejam convertidos para um intervalo entre 0 e 1 (de momento estão entre -1 e 1)
 			horizontal = reflected_vector.x * 0.5 + 0.5;
 			vertical = reflected_vector.z * 0.5 + 0.5;
 
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
-			horizontal = (horizontal * 0.25) + 0.25;
-			vertical = abs(1 - vertical) * 0.33;
+			horizontal = (abs(1 - horizontal) * 0.25) + 0.25;
+			vertical = (vertical * 0.33) + 0.66;
 		}
 		else
 		{
 			// Significa que o vector reflectido vai apontar para a face de cima.
-			// A face da direita tem valores entre os 0.25 e 0.50 na horizontal, e 0.66 e 1 na vertical.
+			// A face da direita tem valores entre os 0.25 e 0.50 na horizontal, e 0 e 0.33 na vertical.
 			// Antes de mais, devemos fazer com que os valores sejam convertidos para um intervalo entre 0 e 1 (de momento estão entre -1 e 1)
 			horizontal = reflected_vector.x * 0.5 + 0.5;
 			vertical = reflected_vector.z * 0.5 + 0.5;
 
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
 			// No caso do vertical, nada é preciso ser feito, contudo com o horizontal, é preciso inverter.
-			horizontal = (horizontal * 0.25) + 0.25;
-			vertical = (vertical * 0.33) + 0.66;
+			horizontal = (abs(1 - horizontal) * 0.25) + 0.25;
+			vertical = abs(1 - vertical) * 0.33;
 		}
 	}
-	else 
+	else if(maxValue == abs(reflected_vector.z))
 	{
 		// Significa que o vector reflectido vai apontar para as faces de frente e trás
 		if(reflected_vector.z < 0)
@@ -123,7 +118,7 @@ void main(void)
 			vertical = reflected_vector.y * 0.5 + 0.5;
 
 			// Depois fazemos uma conversão, onde os valores de horizontal e vertical (de 0 a 1), têm de ser transformados para coordenadas nos intevalos acima descritos.
-			horizontal = (horizontal * 0.25) + 0.25;
+			horizontal = (abs(1 - horizontal) * 0.25) + 0.25;
 			vertical = (vertical * 0.33) + 0.33;
 		}
 		else
@@ -141,7 +136,5 @@ void main(void)
 	}
 
 	// Aqui, com os valores calculados acima, vamos buscar a cor na posição calculada anteriormente
-	out_Color = texture(baseTexture, vec2(horizontal,vertical));
-
-	// Esta versão não tem a luz implementada!
+	out_Color = texture(baseTexture, vec2(horizontal , vertical));
 }
