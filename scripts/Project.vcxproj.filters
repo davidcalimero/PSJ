@@ -65,6 +65,9 @@
     <ClCompile Include="..\src\TextureCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Camera.h">
@@ -103,6 +106,9 @@
     <ClInclude Include="..\src\TextureCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="materials\cyan.mtl">
@@ -136,6 +142,9 @@
       <Filter>Shader Files</Filter>
     </None>
     <None Include="shaders\vertex.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="shaders\skybox.glsl">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>
@@ -172,6 +181,12 @@
     </Image>
     <Image Include="textures\SkyBox\cubeMap-top.tga">
       <Filter>Resources Files\Textures\SkyBox</Filter>
+    </Image>
+    <Image Include="textures\stone2.tga">
+      <Filter>Resources Files\Textures</Filter>
+    </Image>
+    <Image Include="textures\stone2_normal.tga">
+      <Filter>Resources Files\Textures</Filter>
     </Image>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Object.h"
 #include "Light.h"
+#include "SkyBox.h"
 
 #include <iostream>
 #include <map>
@@ -15,6 +16,7 @@ class GameManager {
 		enum Objects { QUAD, CUBE, SPHERE, TORUS, TEAPOT };
 		Objects _state;
 		Light * _light;
+		SkyBox * _skybox;
 		typedef std::map<const std::string, Entity *>::iterator entityIterator;
 		std::map<const std::string, Entity *> _entities;
 		GameManager();

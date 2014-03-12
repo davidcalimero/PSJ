@@ -5,6 +5,8 @@ in vec3 ex_Position;
 in vec4 ex_Color;
 in vec3 ex_Normal;
 in vec2 ex_TexCoord;
+in vec3 ex_L;
+in vec3 ex_H;
 
 // Out
 out vec4 out_Color;
@@ -24,35 +26,22 @@ uniform vec3 MaterialSpecular;
 uniform float MaterialShininess;
 
 
+
 // Texture Sample
-uniform samplerCube cubeMap;
 uniform sampler2D baseTexture;
 uniform sampler2D normalTexture;
 
 // Matrix
 uniform mat4 ModelMatrix;
 layout(std140) uniform SharedMatrices
-{	
+{
 	mat4 ViewMatrix;
 	mat4 ProjectionMatrix;
 };
 
-const float reflect_factor = 0.5;
 
-void main (void) {
-
-	vec3 E = normalize(ex_Position);
-	vec3 N = normalize(ex_Normal);
-	//vec3 reflected_vector = N;
-	vec3 reflected_vector = normalize(vec3(ViewMatrix * vec4(reflect(E, N) , 0.0)));
-
-	// Perform a simple 2D texture look up.
-	//vec3 base_color = texture(baseTexture, ex_TexCoord).rgb;
-
-	// Perform a cube map look up.
-	vec3 cube_color = texture(cubeMap, reflected_vector).rgb;
-
-	// Write the final pixel.
-	out_Color = vec4(cube_color, 1.0);
-	//out_Color = vec4(mix(base_color, cube_color, reflect_factor), 1.0);
+void main(void)
+{
+	vec4 textureColor = texture(baseTexture, ex_TexCoord);
+	out_Color = textureColor;
 }

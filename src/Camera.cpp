@@ -48,7 +48,7 @@ void Camera::put(){
 									1.0*_distance/4, 10.0*_distance/4);
 	}
 	else
-		projection = glm::perspective(38.0f, racio, 1.0f, 15.0f);
+		projection = glm::perspective(38.0f, racio, 1.0f, 100.0f);
 
 	_view = _view*glm::mat4_cast(_q);
 
