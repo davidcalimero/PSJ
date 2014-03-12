@@ -91,7 +91,7 @@
     <ClCompile Include="..\src\ply.c" />
     <ClCompile Include="..\src\ProgramShader.cpp" />
     <ClCompile Include="..\src\Project.cpp" />
-    <ClCompile Include="..\src\SkyBox.cpp" />
+    <ClCompile Include="..\src\TextureCube.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Utils.cpp" />
   </ItemGroup>
@@ -105,7 +105,7 @@
     <ClInclude Include="..\src\Mesh.h" />
     <ClInclude Include="..\src\ply.h" />
     <ClInclude Include="..\src\ProgramShader.h" />
-    <ClInclude Include="..\src\SkyBox.h" />
+    <ClInclude Include="..\src\TextureCube.h" />
     <ClInclude Include="..\src\Texture.h" />
     <ClInclude Include="..\src\Utils.h" />
   </ItemGroup>

@@ -54,7 +54,7 @@ void GameManager::init(){
 					   glm::vec3(0.0, 0.025, 0.002));
 
 	/**/
-
+	// Bump Mapping - Quad
 	Object * quad = new Object("quad");
 	quad->setProgram(program1);
 	quad->rotate(1, 0, 0, 90);
@@ -63,38 +63,37 @@ void GameManager::init(){
 	add(quad);
 
 	/**/
-
+	// Bump Mapping - Cube
 	Object * cube = new Object("cube");
-	cube->setProgram(program4);
+	cube->setProgram(program1);
 	cube->setMesh("mesh/cube.obj", "materials/ruby.mtl");
-	//cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
-	cube->setSkyBox();
+	cube->setTexture("textures/stone.tga", "textures/stone_normal.tga");
 	add(cube);
 	
-	/** /
-
+	/**/
+	// Cube Mapping with 1 image (Cubo Desconstruído) - Sphere
 	Object * sphere = new Object("sphere");
-	sphere->setProgram(program1);
+	sphere->setProgram(program3);
 	sphere->setMesh("mesh/sphere.obj", "materials/ruby.mtl");
-	sphere->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	sphere->setTexture("textures/cubeMap.tga", "textures/stone_normal.tga");
 	add(sphere);
 
-	/** /
-
+	/**/
+	// Cube Mapping with 6 images (TextureCube) - Torus
 	Object * torus = new Object("torus");
-	torus->setProgram(program1);
+	torus->setProgram(program4);
 	torus->setMesh("mesh/torus.obj", "materials/ruby.mtl");
-	torus->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	torus->setTexture("textures/cubeMap.tga", "textures/stone_normal.tga");
+	torus->setTextureCube();
 	add(torus);
 
-	/** /
-
+	/**/
+	// Sphere Mapping - Teapot
 	Object * teapot = new Object("teapot");
-	teapot->setProgram(program1);
+	teapot->setProgram(program2);
 	teapot->setMesh("mesh/teapot.obj", "materials/ruby.mtl");
-	teapot->setTexture("textures/stone.tga", "textures/stone_normal.tga");
+	teapot->setTexture("textures/sphereMap.tga", "textures/stone_normal.tga");
 	add(teapot);
-
 	/**/
 }
 

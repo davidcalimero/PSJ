@@ -44,7 +44,7 @@ void main (void) {
 	vec3 E = normalize(ex_Position);
 	vec3 N = normalize(ex_Normal);
 	//vec3 reflected_vector = N;
-	vec3 reflected_vector = normalize(reflect(-E, N));
+	vec3 reflected_vector = normalize(vec3(ViewMatrix * vec4(reflect(E, N) , 0.0)));
 
 	// Perform a simple 2D texture look up.
 	vec3 base_color = texture(baseTexture, ex_TexCoord).rgb;

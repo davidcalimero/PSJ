@@ -62,7 +62,7 @@
     <ClCompile Include="..\src\ply.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SkyBox.cpp">
+    <ClCompile Include="..\src\TextureCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -100,7 +100,7 @@
     <ClInclude Include="..\src\ply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\SkyBox.h">
+    <ClInclude Include="..\src\TextureCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

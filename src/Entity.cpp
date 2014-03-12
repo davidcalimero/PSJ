@@ -9,7 +9,7 @@ Entity::Entity(std::string id){
 	_mesh = NULL;
 	_texture = NULL;
 	_program = 0;
-	_skybox = NULL;
+	_textureCube = NULL;
 }
 
 
@@ -23,8 +23,8 @@ void Entity::draw(){
 	if(_texture != NULL)
 		_texture->bind();	
 
-	if (_skybox != NULL)
-		_skybox->bind();
+	if (_textureCube != NULL)
+		_textureCube->bind();
 	
 	if(_mesh != NULL)
 		_mesh->draw();
@@ -32,8 +32,8 @@ void Entity::draw(){
 	if(_texture != NULL)
 		_texture->unbind();
 
-	if (_skybox != NULL)
-		_skybox->unbind();
+	if (_textureCube != NULL)
+		_textureCube->unbind();
 
 	Utils::checkOpenGLError("ERROR: Could not draw scene.");
 }
@@ -82,9 +82,9 @@ void Entity::setTexture(char * filename1, char * filename2) {
 	ProgramShader::getInstance()->unBind();
 }
 
-void Entity::setSkyBox() {
+void Entity::setTextureCube() {
 	ProgramShader::getInstance()->bind(_program);
-	_skybox = new SkyBox();
+	_textureCube = new TextureCube();
 	ProgramShader::getInstance()->unBind();
 }
 

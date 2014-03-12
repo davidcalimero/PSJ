@@ -43,7 +43,7 @@ void main(void)
 	vec3 E = normalize(ex_Position);
 	vec3 N = normalize(ex_Normal);
 	//vec3 reflected_vector = N;
-	vec3 reflected_vector = normalize(reflect(E, N));
+	vec3 reflected_vector = normalize(reflect(-E, N));
 
 	float horizontal = 0.0f;
 	float vertical = 0.0f;
