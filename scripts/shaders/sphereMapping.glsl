@@ -36,20 +36,14 @@ layout(std140) uniform SharedMatrices
 
 void main(void)
 {
-	// Sphere Mapping
-	vec3 E = normalize(ex_Position);
-	vec3 N = normalize(ex_Normal);
-	vec3 R = reflect(E, N);
-
-	float p = 2.0 * sqrt(2 * (R.z + 1.0)); 
-	vec2 coords = vec2((R.x/p) + 0.5, (R.y/p) + 0.5);
 
 	// Blinn-Phong Model
 	// Vector Initialization
+	vec3 E = normalize(-ex_Position);
+	vec3 N = normalize(ex_Normal);
 	vec3 L = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
 	float LightDistance = length(L);
 	L = normalize(L);
-	E = normalize(-ex_Position);
 	vec3 H = normalize(L + E);
 
 	// Ambient Component
@@ -70,6 +64,6 @@ void main(void)
 	float attenuation = 1.0 / (LightAttenuation.x + LightAttenuation.y * LightDistance + LightAttenuation.z * LightDistance * LightDistance);
 	
 	vec4 LightIntensity = vec4(ambient + diffuse*attenuation + specular*attenuation, 1.0);
-	vec4 TextureColor = texture(baseTexture, coords);
+	vec4 TextureColor = texture(baseTexture, ex_TexCoord);
 	out_Color = LightIntensity * TextureColor;
 }

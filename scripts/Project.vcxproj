@@ -124,6 +124,7 @@
     <None Include="shaders\skybox.glsl" />
     <None Include="shaders\sphereMapping.glsl" />
     <None Include="shaders\vertex.glsl" />
+    <None Include="shaders\vertexSphereMapping.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\Cubemap.tga" />

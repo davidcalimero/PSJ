@@ -471,8 +471,8 @@ namespace Utils {
 				somab += bitan[*iter];
 			}
 
-			glm::vec3 result_tan = somat;
-			glm::vec3 result_bitan = somab;
+			glm::vec3 result_tan = somat/divideBy;
+			glm::vec3 result_bitan = somab/divideBy;
 
 			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
 				tan[*iter] = result_tan;

@@ -45,7 +45,7 @@ void GameManager::init(){
 	// Programs
 	GLuint program = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/skybox.glsl");
 	_programas[0] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/fragment.glsl");
-	_programas[1] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/sphereMapping.glsl");
+	_programas[1] = ProgramShader::getInstance()->createShaderProgram("shaders/vertexSphereMapping.glsl", "shaders/sphereMapping.glsl");
 	_programas[2] = ProgramShader::getInstance()->createShaderProgram("shaders/vertex.glsl", "shaders/cubeMapping-v6.glsl");
 
 	// Light

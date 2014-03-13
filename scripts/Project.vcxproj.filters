@@ -147,6 +147,9 @@
     <None Include="shaders\skybox.glsl">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="shaders\vertexSphereMapping.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\Cubemap.tga">

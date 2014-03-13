@@ -39,9 +39,9 @@ layout(std140) uniform SharedMatrices
 
 void main (void) {
 
-	vec3 E = normalize(ex_Position);
+	vec3 E = normalize(-ex_Position);
 	vec3 N = normalize(ex_Normal);
-	vec3 reflected_vector = normalize(reflect(E, N));
+	vec3 reflected_vector = normalize(reflect(-E, N));
 	reflected_vector = vec3(ViewMatrix * vec4(reflected_vector, 0.0));
 	// Blinn-Phong Model
 	// Vector Initialization
