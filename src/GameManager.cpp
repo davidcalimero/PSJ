@@ -111,6 +111,7 @@ void GameManager::init(){
 void GameManager::draw(){
 	GLuint program = _skybox->getProgram(); 
 
+	//Desenha skybox
 	ProgramShader::getInstance()->bind(program);
 	Camera::getInstance()->put();
 	_skybox->draw();
@@ -118,6 +119,7 @@ void GameManager::draw(){
 
 	program = getEntityById(enumToId(_state))->getProgram();
 	
+	//Desenha objecto
 	ProgramShader::getInstance()->bind(program);
 	Camera::getInstance()->put();
 	_light->setShaderLightValues();

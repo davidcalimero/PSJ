@@ -289,14 +289,8 @@ namespace Utils {
 					}
 				}
 
-				// do this if you want to grab the other data
-				// list_pointer = get_other_properties_ply
-				//                (input, offsetof(Vertex, struct_pointer));
-
 				// copy the data
 				for (j = 0; j < count; j = j + 1) {
-					//(*vertices)[j] = (Vertex*)malloc(sizeof(Vertex));
-
 					Vertex* v = (Vertex*)malloc(sizeof(Vertex));
 					get_element_ply(input, (void*)(v));
 
@@ -307,7 +301,6 @@ namespace Utils {
 			}
 			// get faces
 			else if (strcmp("face", element) == 0) {
-				//*faces = (Face**)malloc(sizeof(Face)* count);
 				facecount = count;
 
 				// run through the properties and store them
@@ -368,10 +361,6 @@ namespace Utils {
 					}
 				}
 
-				// do this if you want to grab the other data
-				// list_pointer = get_other_properties_ply
-				//                (input, offsetof(Face, struct_pointer));
-
 				// copy the data
 				for (j = 0; j < count; j = j + 1) {
 					//(*faces)[j] = (Face*)malloc(sizeof(Face));
@@ -402,11 +391,6 @@ namespace Utils {
 				//std::cerr << "unknown element type found: " << element << std::endl;
 			}
 		}
-
-		// if you want to grab the other data do this
-		// get_other_element_ply(input);
-
-
 	}
 
 
@@ -416,38 +400,6 @@ namespace Utils {
 
 		for (int i = 0; i < _vertices.size(); i += 3){
 			glm::vec4 T;
-
-			/** /
-			glm::vec3& v0 = _vertices[i + 0];
-			glm::vec3& v1 = _vertices[i + 1];
-			glm::vec3& v2 = _vertices[i + 2];
-
-			glm::vec2 & uv0 = _uvs[i + 0];
-			glm::vec2 & uv1 = _uvs[i + 1];
-			glm::vec2 & uv2 = _uvs[i + 2];
-
-			glm::vec3 Edge1 = v1 - v0;
-			glm::vec3 Edge2 = v2 - v0;
-
-			float DeltaU1 = uv1.x - uv0.x;
-			float DeltaV1 = uv1.y - uv0.y;
-			float DeltaU2 = uv2.x - uv0.x;
-			float DeltaV2 = uv2.y - uv0.y;
-
-			float f = 1.0f / (DeltaU1 * DeltaV2 - DeltaU2 * DeltaV1);
-
-			glm::vec4 Tangent, Bitangent;
-
-			Tangent.x = f * (DeltaV2 * Edge1.x - DeltaV1 * Edge2.x);
-			Tangent.y = f * (DeltaV2 * Edge1.y - DeltaV1 * Edge2.y);
-			Tangent.z = f * (DeltaV2 * Edge1.z - DeltaV1 * Edge2.z);
-			Tangent.w = 1.0f;
-
-			tangents.push_back(Tangent);
-			tangents.push_back(Tangent);
-			tangents.push_back(Tangent);
-
-			/**/
 
 			glm::vec3& v1 = _vertices[i + 0];
 			glm::vec3& v2 = _vertices[i + 1];
@@ -508,16 +460,6 @@ namespace Utils {
 
 
 		}
-
-		/** /
-		for (std::map<int, std::list<int>>::iterator it = indices.begin(); it != indices.end(); it++){
-			std::cout << it->first << " { ";
-			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
-				std::cout << *iter << " ";
-			}
-			std::cout << "}" << std::endl;
-		}
-
 		/**/
 
 		for (std::map<int, std::list<int>>::iterator it = indices.begin(); it != indices.end(); it++){
@@ -538,6 +480,7 @@ namespace Utils {
 			}
 			
 		}
+
 		/**/
 		for (int i = 0; i < _vertices.size(); i++)
 		{

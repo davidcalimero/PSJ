@@ -4,8 +4,6 @@ TextureCube::TextureCube(char * right, char * left, char * top, char * bottom, c
 
 	tImageTGA* image[6];
 
-	/* Don't do this at home! */
-
 	glActiveTexture(GL_TEXTURE3);
 	glEnable(GL_TEXTURE_CUBE_MAP);
 	glGenTextures(1, &_textureID);

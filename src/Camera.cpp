@@ -37,6 +37,7 @@ void Camera::put(){
 	eye.y *= _distance;
 	_view = glm::lookAt(eye, _center, _up);
 
+	//Ajusta o racio da janela e muda de projeccao
 	if(_type){
 		if (racio > 1)
 			projection = glm::ortho(-1.5*racio*_distance/4, 
