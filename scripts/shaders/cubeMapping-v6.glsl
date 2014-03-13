@@ -37,22 +37,38 @@ layout(std140) uniform SharedMatrices
 	mat4 ProjectionMatrix;
 };
 
-const float reflect_factor = 0.5;
-
 void main (void) {
 
 	vec3 E = normalize(ex_Position);
 	vec3 N = normalize(ex_Normal);
-	//vec3 reflected_vector = N;
-	vec3 reflected_vector = normalize(vec3(ViewMatrix * vec4(reflect(E, N) , 0.0)));
+	vec3 reflected_vector = normalize(reflect(E, N));
+	reflected_vector = vec3(ViewMatrix * vec4(reflected_vector, 0.0));
+	// Blinn-Phong Model
+	// Vector Initialization
+	vec3 L = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
+	float LightDistance = length(L);
+	L = normalize(L);
+	E = normalize(-ex_Position);
+	vec3 H = normalize(L + E);
 
-	// Perform a simple 2D texture look up.
-	//vec3 base_color = texture(baseTexture, ex_TexCoord).rgb;
+	// Ambient Component
+	vec3 ambient = AmbientLight;
 
-	// Perform a cube map look up.
-	vec3 cube_color = texture(cubeMap, reflected_vector).rgb;
+	// Diffuse Component
+	float NdotL = max(dot(N, L), 0.0);
+	vec3 diffuse = DiffuseLight * NdotL;
 
-	// Write the final pixel.
-	out_Color = vec4(cube_color, 1.0);
-	//out_Color = vec4(mix(base_color, cube_color, reflect_factor), 1.0);
+	// Specular Component
+	vec3 specular = vec3(0.0);
+	if(NdotL > 0)
+	{
+		float NdotH = max(dot(N, H), 0.0);
+		specular = SpecularLight * pow(NdotH, MaterialShininess * 128);
+	}
+
+	float attenuation = 1.0 / (LightAttenuation.x + LightAttenuation.y * LightDistance + LightAttenuation.z * LightDistance * LightDistance);
+	
+	vec4 LightIntensity = vec4(ambient + diffuse*attenuation + specular*attenuation, 1.0);
+	vec4 TextureColor = texture(cubeMap, reflected_vector);
+	out_Color = LightIntensity * TextureColor;
 }

@@ -17,7 +17,7 @@ class GameManager {
 		Objects _state;
 		Light * _light;
 		SkyBox * _skybox;
-		GLuint _programas[4];
+		GLuint _programas[3];
 		int _programa;
 		typedef std::map<const std::string, Entity *>::iterator entityIterator;
 		std::map<const std::string, Entity *> _entities;

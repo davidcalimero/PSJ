@@ -5,7 +5,7 @@ in vec3 in_Position;
 in vec4 in_Color;
 in vec3 in_Normal;
 in vec2 in_TexCoord;
-in vec4 tangent;
+in vec4 in_Tangent;
 
 // Out
 out vec3 ex_Position;
@@ -30,5 +30,5 @@ void main(void)
 	ex_Position = normalize(vec3(ViewMatrix * ModelMatrix * vec4(in_Position, 1.0)));
 	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(in_Position, 1.0);
 	ex_TexCoord = in_TexCoord;
-	ex_tangent = tangent;
+	ex_tangent = in_Tangent;
 }
