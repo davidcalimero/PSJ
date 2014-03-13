@@ -60,7 +60,7 @@ void GameManager::init(){
 	_skybox->setProgram(program);
 	_skybox->scale(15, 15, 15);
 	_skybox->rotate(1, 0, 0, 90);
-	_skybox->setMesh("mesh/invCube.ply", "materials/skybox.mtl");
+	_skybox->setMesh("mesh/invCube.obj", "materials/skybox.mtl");
 	_skybox->setTexture("textures/Cubemap.tga");
 	
 
