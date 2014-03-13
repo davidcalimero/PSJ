@@ -41,7 +41,7 @@ void main (void) {
 
 	vec3 E = normalize(-ex_Position);
 	vec3 N = normalize(ex_Normal);
-	vec3 reflected_vector = normalize(reflect(-E, N));
+	vec3 reflected_vector = normalize(reflect(E, N));
 	reflected_vector = vec3(ViewMatrix * vec4(reflected_vector, 0.0));
 	// Blinn-Phong Model
 	// Vector Initialization
@@ -69,6 +69,6 @@ void main (void) {
 	float attenuation = 1.0 / (LightAttenuation.x + LightAttenuation.y * LightDistance + LightAttenuation.z * LightDistance * LightDistance);
 	
 	vec4 LightIntensity = vec4(ambient + diffuse*attenuation + specular*attenuation, 1.0);
-	vec4 TextureColor = texture(cubeMap, reflected_vector);
+	vec4 TextureColor = texture(cubeMap, normalize(reflected_vector));
 	out_Color = LightIntensity * TextureColor;
 }
