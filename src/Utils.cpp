@@ -529,8 +529,8 @@ namespace Utils {
 				somab += bitan[*iter];
 			}
 
-			glm::vec3 result_tan = somat / divideBy;
-			glm::vec3 result_bitan = somab / divideBy;
+			glm::vec3 result_tan = somat;
+			glm::vec3 result_bitan = somab;
 
 			for (std::list<int>::iterator iter = it->second.begin(); iter != it->second.end(); iter++){
 				tan[*iter] = result_tan;
@@ -546,12 +546,20 @@ namespace Utils {
 			glm::vec3 n = _normals[i];
 			glm::vec3 t = tan[i];
 
+			glm::vec3 norm;
+
 			// Gram-Schmidt orthogonalize
 			tangent = glm::vec4(t - n * glm::dot(n, t), 0.0);
 			
+			norm.x = tangent.x;
+			norm.y = tangent.y;
+			norm.z = tangent.z;
+			//std::cout << "tangent: " << norm.x << " " << norm.y << " " << norm.z << std::endl;
+			if (glm::length(norm) != 0)
+				norm = glm::normalize(norm);
+
 			// Calculate handedness
-			tangent.w = (glm::dot(glm::cross(n, glm::vec3(tangent)), bitan[i]) < 0.0f) ? -1.0f : 1.0f;
-			tangent = glm::normalize(tangent);
+			tangent.w = (glm::dot(glm::cross(n, norm), bitan[i]) < 0.0f) ? -1.0f : 1.0f;
 			tangents.push_back(tangent);
 		}
 		/**/

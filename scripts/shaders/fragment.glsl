@@ -5,8 +5,7 @@ in vec3 ex_Position;
 in vec4 ex_Color;
 in vec3 ex_Normal;
 in vec2 ex_TexCoord;
-in vec3 ex_L;
-in vec3 ex_H;
+in vec4 ex_tangent;
 
 // Out
 out vec4 out_Color;
@@ -33,6 +32,7 @@ uniform sampler2D normalTexture;
 
 // Matrix
 uniform mat4 ModelMatrix;
+uniform mat3 NormalMatrix;
 layout(std140) uniform SharedMatrices
 {
 	mat4 ViewMatrix;
@@ -42,11 +42,33 @@ layout(std140) uniform SharedMatrices
 
 void main(void)
 {
+
+	// Bump Mapping
+	vec3 ex_L = vec3(0.0);
+	vec3 ex_H = vec3(0.0);
+	vec3 N = ex_Normal;
+	vec3 T = normalize(NormalMatrix * ex_tangent.xyz);
+	vec3 B = ex_tangent.w * cross(N, T);
+
+	vec3 v;
+
+	vec3 lightDir = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
+	v.x = dot(lightDir, T);
+	v.y = dot(lightDir, B);
+	v.z = dot(lightDir, N);
+	ex_L = normalize(v);
+
+	vec3 halfVector = normalize(lightDir - ex_Position);
+	v.x = dot(halfVector, T);
+	v.y = dot(halfVector, B);
+	v.z = dot(halfVector, N);
+	ex_H = normalize(v);
+
 	// Blinn-Phong Model
 	// Vector Initialization
-	vec3 lightDir = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
+	lightDir = vec3(ViewMatrix * vec4(LightPosition, 1.0)) - ex_Position;
 	float LightDistance = length(lightDir);
-	vec3 N = 2.0 * texture(normalTexture, ex_TexCoord).rgb - 1.0;
+	N = 2.0 * texture(normalTexture, ex_TexCoord).rgb - 1.0;
 	N = normalize(N);
 
 	// Ambient Component
